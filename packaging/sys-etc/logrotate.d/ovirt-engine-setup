@@ -1,0 +1,7 @@
+"/usr/share/ovirt-engine/var/log/ovirt-engine/setup/.log" {
+	monthly
+	missingok
+	compress
+	nocreate
+	rotate 1
+}

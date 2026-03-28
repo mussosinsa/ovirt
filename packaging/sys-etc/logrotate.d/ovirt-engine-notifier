@@ -1,0 +1,8 @@
+"/usr/share/ovirt-engine/var/log/ovirt-engine/notifier/notifier.log" {
+	daily
+	minsize 10M
+	missingok
+	copytruncate
+	rotate 5
+	compress
+}

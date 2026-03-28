@@ -1,0 +1,9 @@
+ovirt-websocket-proxy-helper configuration directory
+
+Only *.conf are considered.
+
+Files are sorted by name, last wins.
+
+Variables available at:
+
+  /usr/share/ovirt-engine/share/ovirt-engine/conf/ovirt-vmconsole-proxy-helper.conf

@@ -1,0 +1,9 @@
+ovirt-fence-kdump-listener service configuration directory
+
+Only *.conf are considered.
+
+Files are sorted by name, last wins.
+
+Variables available at:
+
+  /usr/share/ovirt-engine/share/ovirt-engine/services/ovirt-fence-kdump-listener/ovirt-fence-kdump-listener.conf

@@ -1,0 +1,13 @@
+[Unit]
+Description=oVirt Engine Notifier
+After=network.target 
+
+[Service]
+Type=notify
+User=ovirt
+Group=ovirt
+ExecStart=/usr/share/ovirt-engine/share/ovirt-engine/services/ovirt-engine-notifier/ovirt-engine-notifier.py --redirect-output --systemd=notify $EXTRA_ARGS start
+EnvironmentFile=-/etc/sysconfig/ovirt-engine-notifier
+
+[Install]
+WantedBy=multi-user.target

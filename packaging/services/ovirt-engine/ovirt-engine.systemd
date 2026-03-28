@@ -1,0 +1,14 @@
+[Unit]
+Description=oVirt Engine
+After=network.target 
+
+[Service]
+Type=notify
+User=ovirt
+Group=ovirt
+LimitNOFILE=65535
+ExecStart=/usr/share/ovirt-engine/share/ovirt-engine/services/ovirt-engine/ovirt-engine.py --redirect-output --systemd=notify $EXTRA_ARGS start
+EnvironmentFile=-/etc/sysconfig/ovirt-engine
+
+[Install]
+WantedBy=multi-user.target
