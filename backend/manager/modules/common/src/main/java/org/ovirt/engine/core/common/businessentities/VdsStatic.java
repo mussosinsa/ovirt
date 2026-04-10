@@ -479,8 +479,7 @@ public class VdsStatic implements BusinessEntity<Guid>, Commented {
     }
 
     public boolean isManaged() {
-        return vdsType != VDSType.KubevirtNode
-                && vdsType != VDSType.LXCNode;
+        return vdsType != VDSType.KubevirtNode;
     }
 
     @Override
