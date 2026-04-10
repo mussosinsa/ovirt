@@ -1554,6 +1554,8 @@ public interface LocalizedEnums extends ConstantsWithLookup {
 
     String VDSType___oVirtNode();
 
+    String VDSType___LXCNode();
+
     String StorageDomainType___Master();
 
     String StorageDomainType___Data();
