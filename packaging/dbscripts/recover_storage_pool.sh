@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # =============================================================================
 # recover_storage_pool.sh
 # oVirt DB의 storage_pool 레코드 강제 삭제 후 복구 자동화 스크립트
