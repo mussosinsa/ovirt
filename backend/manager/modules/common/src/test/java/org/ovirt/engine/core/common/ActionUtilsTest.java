@@ -36,6 +36,10 @@ public class ActionUtilsTest {
         unmanagedDownVm.setStatus(VMStatus.Down);
         unmanagedDownVm.setOrigin(OriginType.KUBEVIRT);
 
+        VM lxcDownVm = new VM();
+        lxcDownVm.setStatus(VMStatus.Down);
+        lxcDownVm.setOrigin(OriginType.LXC);
+
         VDS upVds = new VDS();
         upVds.setStatus(VDSStatus.Up);
 
@@ -45,6 +49,14 @@ public class ActionUtilsTest {
         VDS unmanagedUpVds = new VDS();
         unmanagedUpVds.setStatus(VDSStatus.Up);
         unmanagedUpVds.setVdsType(VDSType.KubevirtNode);
+
+        VDS lxcUpVds = new VDS();
+        lxcUpVds.setStatus(VDSStatus.Up);
+        lxcUpVds.setVdsType(VDSType.LXCNode);
+
+        VDS lxcMaintenanceVds = new VDS();
+        lxcMaintenanceVds.setStatus(VDSStatus.Maintenance);
+        lxcMaintenanceVds.setVdsType(VDSType.LXCNode);
 
         StorageDomain upStorageDomain = new StorageDomain();
         upStorageDomain.setStatus(StorageDomainStatus.Active);
@@ -57,6 +69,14 @@ public class ActionUtilsTest {
                 Arguments.of(downVm, ActionType.MigrateVm, false),
                 Arguments.of(unmanagedDownVm, ActionType.MigrateVm, false),
                 Arguments.of(unmanagedDownVm, ActionType.RunVm, true),
+                // LXC VM: lifecycle ops allowed, migrate blocked when Down
+                Arguments.of(lxcDownVm, ActionType.RunVm, true),
+                Arguments.of(lxcDownVm, ActionType.MigrateVm, false),
+                Arguments.of(lxcDownVm, ActionType.StopVm, false),
+                // LXC host: managed via VDSM — standard status-based rules apply
+                Arguments.of(lxcUpVds, ActionType.RefreshHostCapabilities, true),
+                Arguments.of(lxcUpVds, ActionType.RemoveVds, false),
+                Arguments.of(lxcMaintenanceVds, ActionType.RemoveVds, true),
                 Arguments.of(upVds, ActionType.RefreshHostCapabilities, true),
                 Arguments.of(unmanagedUpVds, ActionType.RemoveVds, false),
                 Arguments.of(downVds, ActionType.RefreshHostCapabilities, false),

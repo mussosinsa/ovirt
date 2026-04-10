@@ -9,6 +9,7 @@ import java.util.Set;
 import org.ovirt.engine.core.common.action.ActionType;
 import org.ovirt.engine.core.common.businessentities.BusinessEntityWithStatus;
 import org.ovirt.engine.core.common.businessentities.Managed;
+import org.ovirt.engine.core.common.businessentities.OriginType;
 import org.ovirt.engine.core.common.businessentities.StorageDomain;
 import org.ovirt.engine.core.common.businessentities.StorageDomainStatus;
 import org.ovirt.engine.core.common.businessentities.VDS;
@@ -359,12 +360,33 @@ public final class ActionUtils {
     }
 
     private static boolean canExecute(BusinessEntityWithStatus<?, ?> entity, Class type, ActionType action) {
-        if (!KubevirtSupportedActions.isActionSupported(entity, action)) {
+        if (!isActionSupportedByOrigin(entity, action)) {
             return false;
         }
 
         Set<ActionType> disallowedActions = _matrix.get(type).get(entity.getStatus());
         return disallowedActions == null || !disallowedActions.contains(action);
+    }
+
+    /**
+     * Checks whether an action is permitted for the entity's origin type.
+     * Managed entities (standard VMs and hosts) are always allowed through.
+     * Unmanaged entities are checked against their origin-specific action set.
+     */
+    private static boolean isActionSupportedByOrigin(BusinessEntityWithStatus<?, ?> entity, ActionType action) {
+        if (!(entity instanceof Managed)) {
+            return true;
+        }
+        Managed managed = (Managed) entity;
+        if (managed.isManaged()) {
+            return true;
+        }
+        // Unmanaged VM: check origin-specific supported action set
+        if (entity instanceof VM && ((VM) entity).getOrigin() == OriginType.LXC) {
+            return LxcSupportedActions.isActionSupported(managed, action);
+        }
+        // Default for other unmanaged entities (KubeVirt, etc.)
+        return KubevirtSupportedActions.isActionSupported(managed, action);
     }
 
     public static boolean canExecute(List<? extends BusinessEntityWithStatus<?, ?>> entities,
