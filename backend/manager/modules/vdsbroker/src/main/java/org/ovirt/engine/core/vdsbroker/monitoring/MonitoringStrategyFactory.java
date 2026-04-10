@@ -6,6 +6,7 @@ import javax.inject.Singleton;
 
 import org.ovirt.engine.core.common.businessentities.Cluster;
 import org.ovirt.engine.core.common.businessentities.VDS;
+import org.ovirt.engine.core.common.businessentities.VDSType;
 import org.ovirt.engine.core.dao.ClusterDao;
 
 /**
@@ -19,6 +20,9 @@ public class MonitoringStrategyFactory {
 
     @Inject
     private GlusterMonitoringStrategy glusterMonitoringStrategy;
+
+    @Inject
+    private LxcMonitoringStrategy lxcMonitoringStrategy;
 
     private MultipleServicesMonitoringStrategy multipleMonitoringStrategy;
 
@@ -36,6 +40,10 @@ public class MonitoringStrategyFactory {
      * This method gets the VDS, and returns the correct service strategy, according to the service the cluster that the VDS belongs to supports
      */
     public MonitoringStrategy getMonitoringStrategyForVds(VDS vds) {
+        if (vds.getVdsType() == VDSType.LXCNode) {
+            return lxcMonitoringStrategy;
+        }
+
         Cluster cluster = clusterDao.get(vds.getClusterId());
 
         if (cluster.supportsVirtService() && cluster.supportsGlusterService()) {

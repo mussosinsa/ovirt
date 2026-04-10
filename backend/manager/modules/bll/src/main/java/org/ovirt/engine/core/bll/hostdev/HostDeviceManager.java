@@ -56,7 +56,10 @@ public class HostDeviceManager implements BackendService {
         // will have their devices refreshed in InitVdsOnUpCommand
         List<ActionParametersBase> parameters = hostDynamicDao.getIdsOfHostsWithStatus(VDSStatus.Up)
                 .stream()
-                .filter(hostId -> resourceManager.get().getVdsManager(hostId).getVdsType() != VDSType.KubevirtNode)
+                .filter(hostId -> {
+                    VDSType type = resourceManager.get().getVdsManager(hostId).getVdsType();
+                    return type != VDSType.KubevirtNode && type != VDSType.LXCNode;
+                })
                 .map(hostId -> new VdsActionParameters(hostId))
                 .collect(Collectors.toList());
 
