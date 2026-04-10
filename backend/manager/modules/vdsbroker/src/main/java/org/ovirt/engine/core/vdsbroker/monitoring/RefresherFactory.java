@@ -7,6 +7,8 @@ import org.ovirt.engine.core.vdsbroker.ResourceManager;
 import org.ovirt.engine.core.vdsbroker.VdsManager;
 import org.ovirt.engine.core.vdsbroker.monitoring.kubevirt.KubevirtHostConnectionRefresher;
 import org.ovirt.engine.core.vdsbroker.monitoring.kubevirt.KubevirtVmStatsRefresher;
+import org.ovirt.engine.core.vdsbroker.monitoring.lxc.LxcHostConnectionRefresher;
+import org.ovirt.engine.core.vdsbroker.monitoring.lxc.LxcVmStatsRefresher;
 
 @Singleton
 public class RefresherFactory {
@@ -20,6 +22,8 @@ public class RefresherFactory {
         switch(vdsManager.getVdsType()) {
         case KubevirtNode:
             return Injector.injectMembers(new KubevirtHostConnectionRefresher(vdsManager));
+        case LXCNode:
+            return new LxcHostConnectionRefresher(vdsManager, resourceManager);
         default:
             return new HostConnectionRefresher(vdsManager, resourceManager);
         }
@@ -29,6 +33,8 @@ public class RefresherFactory {
         switch(vdsManager.getVdsType()) {
         case KubevirtNode:
             return new KubevirtVmStatsRefresher(vdsManager);
+        case LXCNode:
+            return new LxcVmStatsRefresher(vdsManager, resourceManager);
         default:
             return new EventVmStatsRefresher(vdsManager, resourceManager);
         }

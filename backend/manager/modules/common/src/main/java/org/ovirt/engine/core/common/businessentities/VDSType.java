@@ -9,7 +9,8 @@ public enum VDSType {
     /**
      * oVirtVintageNode(2) is deprecated and should not be used
      */
-    KubevirtNode(3);
+    KubevirtNode(3),
+    LXCNode(4);
 
     private int intValue;
     private static final Map<Integer, VDSType> mappings = new HashMap<>();
