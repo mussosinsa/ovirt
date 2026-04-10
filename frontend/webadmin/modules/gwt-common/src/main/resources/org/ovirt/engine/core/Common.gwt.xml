@@ -422,6 +422,7 @@
         <include name="common/ActionUtils.java" />
         <include name="common/FeatureSupported.java" />
         <include name="common/KubevirtSupportedActions.java" />
+        <include name="common/LxcSupportedActions.java" />
 
         <!-- Backend Validation framework -->
         <include name="common/validation/annotation/HostnameOrIp.java" />
