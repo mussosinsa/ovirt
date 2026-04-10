@@ -10,6 +10,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.ovirt.engine.core.common.businessentities.OriginType;
 import org.ovirt.engine.core.common.businessentities.VM;
 import org.ovirt.engine.core.common.businessentities.VmType;
 import org.ovirt.engine.ui.common.widget.table.column.AbstractSafeHtmlColumn;
@@ -81,7 +82,9 @@ public class VmTypeColumn extends AbstractSafeHtmlColumn<VM> {
             res.put(getImageSafeHtml(resources.mgmtNetwork()), SafeHtmlUtils.fromString(constants.isHostedEngineVmTooltip()));
         }
 
-        if (!vm.isManaged()) {
+        if (vm.getOrigin() == OriginType.LXC) {
+            res.put(getImageSafeHtml(resources.container()), SafeHtmlUtils.fromString(constants.isRunningInLxc()));
+        } else if (!vm.isManaged()) {
             res.put(getImageSafeHtml(resources.container()), SafeHtmlUtils.fromString(constants.isRunningInContainer()));
         }
 
@@ -170,6 +173,7 @@ public class VmTypeColumn extends AbstractSafeHtmlColumn<VM> {
         }
 
         if (!vm.isManaged()) {
+            // LXC and KubeVirt/OpenShift both show the container icon
             images.add(getImageSafeHtml(resources.container()));
         }
 

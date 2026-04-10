@@ -19,7 +19,8 @@ public enum OriginType {
     KVM(7),
     PHYSICAL_MACHINE(8),
     HYPERV(9),
-    KUBEVIRT(10);
+    KUBEVIRT(10),
+    LXC(11);
 
     private int intValue;
     private static Map<Integer, OriginType> mappings =

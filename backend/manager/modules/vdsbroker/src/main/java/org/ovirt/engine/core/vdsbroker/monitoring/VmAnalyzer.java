@@ -762,6 +762,13 @@ public class VmAnalyzer {
                 dbVm.setIp(vdsmVm.getVmDynamic().getIp());
                 return true;
             }
+        case LXC:
+            // LXC containers report network info directly via container runtime;
+            // propagate IP changes from the container runtime into VmDynamic
+            if (!Objects.equals(dbVm.getIp(), vdsmVm.getVmDynamic().getIp())) {
+                dbVm.setIp(vdsmVm.getVmDynamic().getIp());
+                return true;
+            }
         default:
             return isAnyFieldChanged(dbVm, vdsmVm.getVmDynamic(), CHANGEABLE_FIELDS_BY_VDSM);
         }

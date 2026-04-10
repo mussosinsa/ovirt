@@ -3447,6 +3447,8 @@ public interface ApplicationConstants extends CommonApplicationConstants {
 
     String isRunningInContainer();
 
+    String isRunningInLxc();
+
     String isRunninVmsInContainer();
 
     String providedByContainerPlatform();

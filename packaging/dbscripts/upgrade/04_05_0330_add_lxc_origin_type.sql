@@ -1,0 +1,6 @@
+-- LXC (Linux Containers) origin type support added in Java OriginType enum as value 11.
+-- No schema changes are required. The vm_static.origin column already stores integer values.
+-- Origin type values reference:
+--   0=RHEV, 1=VMWARE, 2=XEN, 3=OVIRT, 4=EXTERNAL, 5=HOSTED_ENGINE,
+--   6=MANAGED_HOSTED_ENGINE, 7=KVM, 8=PHYSICAL_MACHINE, 9=HYPER_V,
+--   10=KUBEVIRT, 11=LXC

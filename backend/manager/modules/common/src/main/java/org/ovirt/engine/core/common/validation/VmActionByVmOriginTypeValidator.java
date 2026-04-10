@@ -4,11 +4,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.ovirt.engine.core.common.action.ActionType;
+import org.ovirt.engine.core.common.businessentities.OriginType;
 import org.ovirt.engine.core.common.businessentities.VM;
 
 public class VmActionByVmOriginTypeValidator {
     private static Set<ActionType> COMMANDS_ALLOWED_ON_EXTERNAL_VMS = new HashSet<>();
     private static Set<ActionType> COMMANDS_ALLOWED_ON_HOSTED_ENGINE = new HashSet<>();
+    private static Set<ActionType> COMMANDS_ALLOWED_ON_LXC = new HashSet<>();
 
     static {
         COMMANDS_ALLOWED_ON_EXTERNAL_VMS.add(ActionType.MigrateVm);
@@ -40,9 +42,24 @@ public class VmActionByVmOriginTypeValidator {
         COMMANDS_ALLOWED_ON_HOSTED_ENGINE.add(ActionType.RemoveVmInterface);
         COMMANDS_ALLOWED_ON_HOSTED_ENGINE.add(ActionType.UpdateVmInterface);
         COMMANDS_ALLOWED_ON_HOSTED_ENGINE.add(ActionType.ActivateDeactivateVmNic);
+
+        // LXC containers support basic lifecycle operations only
+        COMMANDS_ALLOWED_ON_LXC.add(ActionType.RunVm);
+        COMMANDS_ALLOWED_ON_LXC.add(ActionType.StopVm);
+        COMMANDS_ALLOWED_ON_LXC.add(ActionType.ShutdownVm);
+        COMMANDS_ALLOWED_ON_LXC.add(ActionType.RebootVm);
+        COMMANDS_ALLOWED_ON_LXC.add(ActionType.RemoveVm);
+        COMMANDS_ALLOWED_ON_LXC.add(ActionType.MigrateVm);
+        COMMANDS_ALLOWED_ON_LXC.add(ActionType.MigrateVmToServer);
+        COMMANDS_ALLOWED_ON_LXC.add(ActionType.CancelMigrateVm);
+        COMMANDS_ALLOWED_ON_LXC.add(ActionType.VmLogon);
+        COMMANDS_ALLOWED_ON_LXC.add(ActionType.SetVmTicket);
     }
 
     public static boolean isCommandAllowed(VM vm, ActionType actionType) {
+        if (vm.getOrigin() == OriginType.LXC) {
+            return COMMANDS_ALLOWED_ON_LXC.contains(actionType);
+        }
         return !( vm.isHostedEngine() && !COMMANDS_ALLOWED_ON_HOSTED_ENGINE.contains(actionType) ||
                 vm.isExternalVm() && !COMMANDS_ALLOWED_ON_EXTERNAL_VMS.contains(actionType) );
     }

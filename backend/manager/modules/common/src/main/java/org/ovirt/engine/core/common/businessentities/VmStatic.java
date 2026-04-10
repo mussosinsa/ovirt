@@ -200,6 +200,7 @@ public class VmStatic extends VmBase {
 
     @Override
     public boolean isManaged() {
-        return getOrigin() != OriginType.KUBEVIRT;
+        return getOrigin() != OriginType.KUBEVIRT
+                && getOrigin() != OriginType.LXC;
     }
 }

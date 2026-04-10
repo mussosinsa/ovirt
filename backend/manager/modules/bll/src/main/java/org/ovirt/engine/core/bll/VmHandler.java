@@ -1634,6 +1634,9 @@ public class VmHandler implements BackendService {
     private VmNameValidator getVmNameValidator(OriginType originType) {
         if (originType == OriginType.KUBEVIRT) {
             return new KubevirtVmValidator();
+        } else if (originType == OriginType.LXC) {
+            // LXC container names follow the same relaxed naming rules as KubeVirt
+            return new KubevirtVmValidator();
         } else {
             return new ManagedVmValidator();
         }
