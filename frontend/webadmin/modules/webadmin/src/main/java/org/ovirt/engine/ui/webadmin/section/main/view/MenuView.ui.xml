@@ -148,6 +148,14 @@
                     </g:FlowPanel>
                     <b:ListGroup>
                         <b:ListGroupItem>
+                            <b:Anchor href="#kubernetes" targetHistoryToken="kubernetes" ui:field="kubernetesAnchor">
+                                <span class="pficon pficon-cluster" />
+                                <span class="list-group-item-value"><ui:text from="{constants.kubernetesIntegrationMainViewLabel}" /></span>
+                            </b:Anchor>
+                        </b:ListGroupItem>
+                    </b:ListGroup>
+                    <b:ListGroup>
+                        <b:ListGroupItem>
                             <b:Anchor href="#providers" targetHistoryToken="providers" ui:field="providersAnchor">
                                 <span class="list-group-item-value"><ui:text from="{constants.providerMainViewLabel}" /></span>
                             </b:Anchor>

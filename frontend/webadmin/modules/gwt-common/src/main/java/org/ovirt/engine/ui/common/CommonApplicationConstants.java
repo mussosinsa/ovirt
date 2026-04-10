@@ -1947,6 +1947,8 @@ public interface CommonApplicationConstants extends Constants {
 
     String k8s_namespace();
 
+    String vmContainerCount();
+
     String targetStorageDomain();
 
     String ppcChipset();

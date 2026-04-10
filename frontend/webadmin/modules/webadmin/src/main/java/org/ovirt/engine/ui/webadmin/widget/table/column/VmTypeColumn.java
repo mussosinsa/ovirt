@@ -85,6 +85,12 @@ public class VmTypeColumn extends AbstractSafeHtmlColumn<VM> {
             res.put(getImageSafeHtml(resources.container()), SafeHtmlUtils.fromString(constants.isRunningInContainer()));
         }
 
+        if (vm.getGuestContainers() != null && !vm.getGuestContainers().isEmpty()) {
+            res.put(getImageSafeHtml(resources.container()),
+                    SafeHtmlUtils.fromString(constants.vmContainerCount()
+                            + ": " + vm.getGuestContainers().size())); //$NON-NLS-1$
+        }
+
         if (configurationWillChangeAfterRestart(vm)) {
             Set<String> nextRunFields = vm.getNextRunChangedFields() != null ? vm.getNextRunChangedFields() : new HashSet<>();
             if (clusterCpuChanged(vm) && !nextRunFields.contains("customCpuName")){ //$NON-NLS-1$
@@ -164,6 +170,10 @@ public class VmTypeColumn extends AbstractSafeHtmlColumn<VM> {
         }
 
         if (!vm.isManaged()) {
+            images.add(getImageSafeHtml(resources.container()));
+        }
+
+        if (vm.getGuestContainers() != null && !vm.getGuestContainers().isEmpty()) {
             images.add(getImageSafeHtml(resources.container()));
         }
 

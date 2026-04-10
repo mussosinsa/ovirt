@@ -72,6 +72,8 @@ public interface ApplicationConstants extends CommonApplicationConstants {
 
     String providerMainViewLabel();
 
+    String kubernetesIntegrationMainViewLabel();
+
     String errataMainViewLabel();
 
     String securitySettingsMainViewLabel();
