@@ -335,8 +335,11 @@ def is_ovirt_packaging_supported_distro():
     # Also, it does not include 'like' or 'variety'.
     # Python 3.10 added Add platform.freedesktop_os_release, but we can't use
     # that, as EL8 has 3.6. So we rely for now on pypi's 'distro'.
-    id_and_like = [distro.id()] + distro.like().split(' ')
-    return any(dist in id_and_like for dist in ('rhel', 'fedora'))
+    # distro.like() may return None or an empty string on some distributions
+    # (e.g., Rocky Linux 9 with older distro package versions).
+    like_str = distro.like() or ''
+    id_and_like = [distro.id()] + like_str.split()
+    return any(dist in id_and_like for dist in ('rhel', 'fedora', 'rocky'))
 
 
 # vim: expandtab tabstop=4 shiftwidth=4
